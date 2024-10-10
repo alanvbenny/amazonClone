@@ -3,7 +3,21 @@ import './product.css';
 import StarIcon from '@mui/icons-material/Star';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import productDetail from './products.json'
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/actions/actions';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+
 const Products = () => {
+  
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state)=>state.cart.items)
+  const handleAddToCart=(item)=>{
+        toast.success("Added to Cart",{
+          position:"bottom-right"
+        })
+        dispatch(addToCart(item));
+  }
   return (
     <div className="productPage">
       <div className="productTopBanner">
@@ -118,7 +132,7 @@ const Products = () => {
                         <div className="currencyText">$</div>
                         <div className="rateHomeDetail">
                           <div className="rateHomeDetailPrice">{item.price}</div>
-                          <div className="addBasketBtn">Add to Cart</div>
+                          <div className="addBasketBtn" onClick={()=>{handleAddToCart(item)}}>Add to Cart</div>
                         </div>
                       </div>
                       <div className="offProductPage">Upto 10% off on select cards</div>
@@ -135,6 +149,7 @@ const Products = () => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   )
 }
